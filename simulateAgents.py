@@ -11,9 +11,9 @@ from RandomWalker import RandomWalker
 
 
 def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
-    GRID_SIZE = 1000
-    EXPERIMENT_STEPS = 50000
-    PROXIMITY = GRID_SIZE / 10
+    GRID_SIZE = 500
+    EXPERIMENT_STEPS = 20000
+    PROXIMITY = GRID_SIZE / 100
 
     # Creating the grid
     grid = np.zeros((GRID_SIZE, GRID_SIZE))
@@ -61,11 +61,12 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
         prior_found_num += np.sum(found_patches_prior)
 
         # Reevaluate prior speed.
-        estimated_rate = (prior_found_num / i) * np.floor(GRID_SIZE**2 / i)
+        estimated_rate = np.floor(prior_found_num) * ((GRID_SIZE**2) / i)
         prior_for_food = 1 - poisson.cdf(prior_found_num, estimated_rate)
 
         #prior_walker._speed = np.max((basal_speed, prior_for_food))
         prior_walker._speed = basal_speed + (1 - basal_speed) * prior_for_food
+        #prior_walker._speed = 0.1
 
         ord_traj += ord_walker._speed
         prior_traj += prior_walker._speed
@@ -113,12 +114,12 @@ def bath_run_conc(comb):
 if __name__ == "__main__":
     from multiprocessing import Pool
 
-    lams = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.2, 0.3, 0.4, 0.5]
-    basal_speeds = [0.01, 0.03, 0.05, 0.07, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25]
+    lams = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5]
+    basal_speeds = [0.01, 0.03, 0.05, 0.07, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31]
 
     all_combs = product(lams, basal_speeds)
 
-    p = Pool(4)
+    p = Pool(25)
 
     all_dfs = p.map(bath_run_conc, all_combs)
     all_dfs = pd.concat(all_dfs)
