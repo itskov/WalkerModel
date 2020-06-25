@@ -111,7 +111,7 @@ def bath_run_conc(comb):
 if __name__ == "__main__":
     from multiprocessing import Pool
 
-    lams = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.2]
+    lams = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.2, 0.3, 0.4, 0.5]
     basal_speeds = [0.01, 0.03, 0.05, 0.07, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25]
 
     all_combs = product(lams, basal_speeds)
