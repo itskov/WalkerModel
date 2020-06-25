@@ -73,8 +73,10 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
 
     ord_efficiency = ord_found_num / ord_traj
     prior_efficiency = prior_found_num / prior_traj
-    print("Ordinary agent. Found %d, ratio %f, Mean Speed: %f" % (ord_found_num, ord_efficiency, ord_traj / EXPERIMENT_STEPS))
-    print("Prior agent. Found %d, ratio %f, Mean Speed: %f" % (prior_found_num, prior_efficiency, prior_traj / EXPERIMENT_STEPS))
+    print("Ordinary agent. Found %d, ratio %f, Mean Speed: %f. BS: %f, Lam: %f" %
+          (ord_found_num, ord_efficiency, ord_traj / EXPERIMENT_STEPS, basal_speed, lam_ratio))
+    print("Prior agent. Found %d, ratio %f, Mean Speed: %f. BS: %f, Lam: %f" %
+          (prior_found_num, prior_efficiency, prior_traj / EXPERIMENT_STEPS, basal_speed, lam_ratio))
 
     return(ord_found_num , ord_efficiency, prior_found_num, prior_efficiency)
 
