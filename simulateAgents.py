@@ -63,7 +63,9 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
         # Reevaluate prior speed.
         estimated_rate = (prior_found_num / i) * np.floor(GRID_SIZE**2 / i)
         prior_for_food = 1 - poisson.cdf(prior_found_num, estimated_rate)
-        prior_walker._speed = np.max((basal_speed, prior_for_food))
+
+        #prior_walker._speed = np.max((basal_speed, prior_for_food))
+        prior_walker._speed = basal_speed + (1 - basal_speed) * prior_for_food
 
         ord_traj += ord_walker._speed
         prior_traj += prior_walker._speed
