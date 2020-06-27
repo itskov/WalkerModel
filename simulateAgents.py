@@ -12,7 +12,7 @@ from RandomWalker import RandomWalker
 
 def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
     GRID_SIZE = 500
-    EXPERIMENT_STEPS = 20000
+    EXPERIMENT_STEPS = 25000
     PROXIMITY = GRID_SIZE / 100
 
     # Creating the grid
