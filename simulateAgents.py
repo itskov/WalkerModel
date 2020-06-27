@@ -65,7 +65,8 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
         prior_for_food = 1 - poisson.cdf(prior_found_num, estimated_rate)
 
         #prior_walker._speed = np.max((basal_speed, prior_for_food))
-        prior_walker._speed = basal_speed + (1 - basal_speed) * prior_for_food
+        prior_speed = ord_walker._speed * basal_speed
+        prior_walker._speed = prior_speed + (1 - prior_speed) * prior_for_food
         #prior_walker._speed = 0.1
 
         ord_traj += ord_walker._speed
@@ -107,7 +108,7 @@ def batch_run(count, lam, basal_speed, plot=False):
 
 def bath_run_conc(comb):
     print('Starting. Lambda: %f. Basal Speed: %f' % (comb[0], comb[1]))
-    df = batch_run(100, *comb)
+    df = batch_run(150, *comb)
     print('Done with: Lambda: %f. Basal Speed: %f' % (comb[0], comb[1]))
     return df
 
@@ -121,7 +122,7 @@ if __name__ == "__main__":
 
     all_combs = product(lams, basal_speeds)
 
-    p = Pool(25)
+    p = Pool(30)
 
     all_dfs = p.map(bath_run_conc, all_combs)
     all_dfs = pd.concat(all_dfs)
