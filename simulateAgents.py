@@ -107,7 +107,7 @@ def batch_run(count, lam, basal_speed, plot=False):
 
 def bath_run_conc(comb):
     print('Starting. Lambda: %f. Basal Speed: %f' % (comb[0], comb[1]))
-    df = batch_run(1, *comb)
+    df = batch_run(100, *comb)
     print('Done with: Lambda: %f. Basal Speed: %f' % (comb[0], comb[1]))
     return df
 
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     from multiprocessing import Pool
 
     lams = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5]
-    basal_speeds = [0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31, 0.33, 0.35, 0.37, 0.39, 0.41, 0.43, 0.45, 0.49, 0.5]
+    basal_speeds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
     all_combs = product(lams, basal_speeds)
 
