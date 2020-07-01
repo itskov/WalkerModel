@@ -12,15 +12,12 @@ from RandomWalker import RandomWalker
 
 def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
     GRID_SIZE = 500
-    EXPERIMENT_STEPS = 25000
+
+    EXPERIMENT_STEPS = GRID_SIZE * 50
     PROXIMITY = GRID_SIZE / 100
 
-    # Creating the grid
-    grid = np.zeros((GRID_SIZE, GRID_SIZE))
-
     # Sampling food patches.
-    food_patches_num = np.random.poisson(GRID_SIZE * lam_ratio)
-
+    food_patches_num = np.random.poisson((GRID_SIZE**2) * lam_ratio)
 
     # Food patches coordinates
     # Ordinary
@@ -81,6 +78,7 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
 
     return(ord_found_num , ord_efficiency, prior_found_num, prior_efficiency)
 
+
 def batch_run(count, lam, basal_speed, plot=False):
     df = pd.DataFrame({'Count' : [], 'Efficiency' : [], 'Type' : [], 'Lambda' : [], 'BasalSpeed' : []})
 
@@ -117,12 +115,13 @@ def bath_run_conc(comb):
 if __name__ == "__main__":
     from multiprocessing import Pool
 
-    lams = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5]
+    #lams = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5]
+    lams = 10 ** np.linspace(-6, -3, 13)
     basal_speeds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
     all_combs = product(lams, basal_speeds)
 
-    p = Pool(30)
+    p = Pool(35)
 
     all_dfs = p.map(bath_run_conc, all_combs)
     all_dfs = pd.concat(all_dfs)
