@@ -116,12 +116,12 @@ if __name__ == "__main__":
     from multiprocessing import Pool
 
     #lams = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5]
-    lams = 10 ** np.linspace(-6, -3, 13)
+    lams = 10 ** np.linspace(-5, -3, 13)
     basal_speeds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
     all_combs = product(lams, basal_speeds)
 
-    p = Pool(35)
+    p = Pool(32)
 
     all_dfs = p.map(bath_run_conc, all_combs)
     all_dfs = pd.concat(all_dfs)
