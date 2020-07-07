@@ -13,7 +13,7 @@ from RandomWalker import RandomWalker
 def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
     GRID_SIZE = 500
 
-    EXPERIMENT_STEPS = GRID_SIZE * 50
+    EXPERIMENT_STEPS = GRID_SIZE * 100
     PROXIMITY = GRID_SIZE / 100
 
     # Sampling food patches.
@@ -31,8 +31,12 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
     food_patches_prior = np.array([patches_x, patches_y]).T
 
 
-    ord_walker = RandomWalker((500, 500), 1 * 0.5, GRID_SIZE, GRID_SIZE)
-    prior_walker = RandomWalker((500, 500), 1 * 0.5, GRID_SIZE, GRID_SIZE)
+    #ord_walker = RandomWalker((500, 500), 1 * 0.5, GRID_SIZE, GRID_SIZE)
+    #prior_walker = RandomWalker((500, 500), 1 * 0.5, GRID_SIZE, GRID_SIZE)
+
+    ord_walker = RandomWalker((500, 500), basal_speed + 0.5 * (1 - basal_speed), GRID_SIZE, GRID_SIZE)
+    prior_walker = RandomWalker((500, 500), basal_speed + 0.5 * (1 - basal_speed), GRID_SIZE, GRID_SIZE)
+
 
 
     ord_found_num = 0
@@ -62,8 +66,10 @@ def simulate_prior_vs_no_prior(lam_ratio, basal_speed):
         prior_for_food = 1 - poisson.cdf(prior_found_num, estimated_rate)
 
         #prior_walker._speed = np.max((basal_speed, prior_for_food))
-        prior_speed = ord_walker._speed * basal_speed
-        prior_walker._speed = prior_speed + (1 - prior_speed) * prior_for_food
+        #prior_speed = ord_walker._speed * basal_speed
+        prior_walker._speed = basal_speed + (1 - basal_speed) * prior_for_food
+
+        #prior_walker._speed = prior_speed + (1 - prior_speed) * prior_for_food
         #prior_walker._speed = 0.1
 
         ord_traj += ord_walker._speed
@@ -106,7 +112,7 @@ def batch_run(count, lam, basal_speed, plot=False):
 
 def bath_run_conc(comb):
     print('Starting. Lambda: %f. Basal Speed: %f' % (comb[0], comb[1]))
-    df = batch_run(150, *comb)
+    df = batch_run(200, *comb)
     print('Done with: Lambda: %f. Basal Speed: %f' % (comb[0], comb[1]))
     return df
 
@@ -116,8 +122,8 @@ if __name__ == "__main__":
     from multiprocessing import Pool
 
     #lams = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5]
-    lams = 10 ** np.linspace(-5, -3, 13)
-    basal_speeds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    lams = 10 ** np.linspace(-4, -3, 9)
+    basal_speeds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.9]
 
     all_combs = product(lams, basal_speeds)
 
